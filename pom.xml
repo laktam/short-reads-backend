@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.mql.laktam</groupId>
-	<artifactId>speed-read-backend</artifactId>
+	<artifactId>short-reads-backend</artifactId>
 	<version>0.0.1</version>
-	<name>speed-read-backend</name>
-	<description>Speed Read app backend</description>
+	<name>short-reads-backend</name>
+	<description>Short Reads app backend</description>
 	<url/>
 	<licenses>
 		<license/>
