@@ -1,105 +1,150 @@
 package org.mql.laktam.speedreadbackend.models;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
 public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+	@Column(unique = true, nullable = false, length = 60)
+	private String username;
 
-    @Column(name = "username", nullable = false, unique = true, length = 60)
-    private String username;
+	@Column(unique = true, nullable = false)
+	private String email;
 
-    @Column(name = "email", nullable = false, unique = true, length = 255)
-    private String email;
+	@Column(name = "password_hash", nullable = false)
+	private String passwordHash;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;
+	@Column(name = "profile_picture_url")
+	private String profilePictureUrl;
 
-    @Column(name = "profile_picture_url", length = 512)
-    private String profilePictureUrl;
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+	@Column(name = "last_login")
+	private LocalDateTime lastLogin;
 
-    @Column(name = "last_login")
-    private LocalDateTime lastLogin;
+	@OneToMany(mappedBy = "user")
+	private Set<Post> posts = new HashSet<>();
 
-    public User() {
-    }
+	@OneToMany(mappedBy = "user")
+	private Set<Like> likes = new HashSet<>();
 
-    public Long getUserId() {
-        return userId;
-    }
+	@OneToMany(mappedBy = "follower")
+	private Set<Follow> following = new HashSet<>();
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	@OneToMany(mappedBy = "followed")
+	private Set<Follow> followers = new HashSet<>();
 
-    public String getUsername() {
-        return username;
-    }
+	public User() {
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public User(String username, String email, String passwordHash) {
+		this.username = username;
+		this.email = email;
+		this.passwordHash = passwordHash;
+		this.createdAt = LocalDateTime.now();
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getProfilePictureUrl() {
-        return profilePictureUrl;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setProfilePictureUrl(String profilePictureUrl) {
-        this.profilePictureUrl = profilePictureUrl;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public String getPasswordHash() {
+		return passwordHash;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
 
-    public LocalDateTime getLastLogin() {
-        return lastLogin;
-    }
+	public String getProfilePictureUrl() {
+		return profilePictureUrl;
+	}
 
-    public void setLastLogin(LocalDateTime lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-    
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", profilePictureUrl='" + profilePictureUrl + '\'' +
-                ", createdAt=" + createdAt +
-                ", lastLogin=" + lastLogin +
-                '}';
-    }
-    
-    
+	public void setProfilePictureUrl(String profilePictureUrl) {
+		this.profilePictureUrl = profilePictureUrl;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(LocalDateTime lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(Set<Post> posts) {
+		this.posts = posts;
+	}
+
+	public Set<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Set<Like> likes) {
+		this.likes = likes;
+	}
+
+	public Set<Follow> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<Follow> following) {
+		this.following = following;
+	}
+
+	public Set<Follow> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<Follow> followers) {
+		this.followers = followers;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", createdAt="
+				+ createdAt + ", lastLogin=" + lastLogin + '}';
+	}
 }
