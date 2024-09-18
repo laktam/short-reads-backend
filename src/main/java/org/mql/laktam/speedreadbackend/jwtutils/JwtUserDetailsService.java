@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+/*
+ * Loads user-specific data for authentication by querying the UserRepository
+ */
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 

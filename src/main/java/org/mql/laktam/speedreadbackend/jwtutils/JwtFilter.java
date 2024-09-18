@@ -16,8 +16,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 
+/*
+ * Processes every HTTP request to check for a JWT in the Authorization header.
+ * Validates the token, extracts the username,
+ * and sets the authentication in the security context if the token is valid.
+ */
 
-// filter to run for every request
 @Component
 public class JwtFilter extends OncePerRequestFilter {
    @Autowired

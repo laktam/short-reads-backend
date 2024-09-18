@@ -11,6 +11,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+
+/*
+ * Handles unauthorized access errors by sending a 401 Unauthorized response when authentication fails.
+ */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 

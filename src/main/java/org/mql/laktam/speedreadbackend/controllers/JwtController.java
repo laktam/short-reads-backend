@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/*
+ * Uses AuthenticationManager to authenticate the user and TokenManager to generate JWT tokens.
+ */
 @RestController
 @CrossOrigin
 public class JwtController {
