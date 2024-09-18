@@ -1,7 +1,7 @@
 package org.mql.laktam.speedreadbackend.models.jwt;
 
 import java.io.Serializable; 
-public class JwtRequestModel implements Serializable { 
+public class JwtRequest implements Serializable { 
    /**
 	 * 
 	 */
@@ -12,9 +12,9 @@ public class JwtRequestModel implements Serializable {
    private String username; 
    private String password; 
    
-   public JwtRequestModel() { 
+   public JwtRequest() { 
    } 
-   public JwtRequestModel(String username, String password) { 
+   public JwtRequest(String username, String password) { 
       super(); 
       this.username = username; this.password = password; 
    } 

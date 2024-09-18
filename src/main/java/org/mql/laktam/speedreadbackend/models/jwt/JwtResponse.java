@@ -1,13 +1,13 @@
 package org.mql.laktam.speedreadbackend.models.jwt;
 
 import java.io.Serializable; 
-public class JwtResponseModel implements Serializable {
+public class JwtResponse implements Serializable {
    /**
    *
    */
    private static final long serialVersionUID = 1L;
    private final String token;
-   public JwtResponseModel(String token) {
+   public JwtResponse(String token) {
       this.token = token;
    }
    public String getToken() {
