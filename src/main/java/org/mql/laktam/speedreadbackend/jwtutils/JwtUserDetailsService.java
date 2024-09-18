@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Find user by email in the UserRepository
         org.mql.laktam.speedreadbackend.models.User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with name: " + username));
 
         // Return a Spring Security UserDetails object (User class)
         return new User(user.getEmail(), user.getPasswordHash(), Collections.emptyList());
