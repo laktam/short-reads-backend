@@ -1,5 +1,7 @@
 package org.mql.laktam.speedreadbackend.controllers;
 
+import java.util.Collections;
+
 import org.mql.laktam.speedreadbackend.jwtutils.JwtUserDetailsService;
 import org.mql.laktam.speedreadbackend.jwtutils.TokenManager;
 import org.mql.laktam.speedreadbackend.models.User;
@@ -72,6 +74,6 @@ public class JwtController {
 	      );
 
 	      userRepository.save(newUser);
-	      return ResponseEntity.ok(newUser);
+	      return ResponseEntity.ok(Collections.singletonMap("message", "Signup successful"));
 	   }
 }
