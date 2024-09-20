@@ -72,6 +72,6 @@ public class JwtController {
 	      );
 
 	      userRepository.save(newUser);
-	      return ResponseEntity.ok("User registered successfully.");
+	      return ResponseEntity.ok(newUser);
 	   }
 }
