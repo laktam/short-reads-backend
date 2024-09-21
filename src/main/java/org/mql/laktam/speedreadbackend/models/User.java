@@ -31,6 +31,8 @@ public class User {
 
 	@Column(name = "last_login")
 	private LocalDateTime lastLogin;
+	
+	private String description;
 
 	@OneToMany(mappedBy = "user")
 	private Set<Post> posts = new HashSet<>();
@@ -140,6 +142,14 @@ public class User {
 
 	public void setFollowers(Set<Follow> followers) {
 		this.followers = followers;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
