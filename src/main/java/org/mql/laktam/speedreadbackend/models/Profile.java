@@ -1,6 +1,7 @@
 package org.mql.laktam.speedreadbackend.models;
 
 public class Profile {
+	private String profilePictureUrl;
 	private String username;
 	private String description;
 	private int followersCount;
@@ -9,12 +10,13 @@ public class Profile {
 	public Profile() {
 	}
 
-	public Profile(String username, String description, int followersCount, String email) {
+	public Profile(String username, String description, int followersCount, String email, String profilePictureUrl) {
 		super();
 		this.username = username;
 		this.description = description;
 		this.followersCount = followersCount;
 		this.email = email;
+		this.profilePictureUrl = profilePictureUrl;
 	}
 	
 	public String getUsername() {
@@ -48,12 +50,22 @@ public class Profile {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public void setProfilePictureUrl(String profilePictureUrl) {
+		this.profilePictureUrl = profilePictureUrl;
+	}
+	
+	public String getProfilePictureUrl() {
+		return profilePictureUrl;
+	}
 
 	@Override
 	public String toString() {
-		return "Profile [username=" + username + ", description=" + description + ", followersCount=" + followersCount
-				+ ", email=" + email + "]";
+		return "Profile [profilePictureUrl=" + profilePictureUrl + ", username=" + username + ", description="
+				+ description + ", followersCount=" + followersCount + ", email=" + email + "]";
 	}
+
+	
 
 	
 	
