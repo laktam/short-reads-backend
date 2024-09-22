@@ -154,7 +154,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", createdAt="
+		return "User{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\'' + ", description='" + description + '\'' + ", createdAt="
 				+ createdAt + ", lastLogin=" + lastLogin + '}';
 	}
 }

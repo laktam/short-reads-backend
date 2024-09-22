@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.mql.laktam.speedreadbackend.jwtutils.JwtUserDetailsService;
 import org.mql.laktam.speedreadbackend.jwtutils.TokenManager;
+import org.mql.laktam.speedreadbackend.models.Profile;
 import org.mql.laktam.speedreadbackend.models.User;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtSignupRequest;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtLoginRequest;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,11 +35,12 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@PostMapping("/username/{username}")
+	@GetMapping("/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable String username){
 		Optional<User> userOpt = userRepository.findByUsername(username);
 		if(userOpt.isPresent()) {
-			return ResponseEntity.ok(userOpt.get());
+			User user = userOpt.get();			
+			return ResponseEntity.ok(new Profile(user.getUsername(), user.getDescription(), user.getFollowers().size(), user.getEmail()));
 		}else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("User not found");
