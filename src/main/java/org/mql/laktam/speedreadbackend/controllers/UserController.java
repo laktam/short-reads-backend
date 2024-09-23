@@ -78,7 +78,7 @@ public class UserController {
             User user = userService.updateUser(username, updatedUser);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(null);  // Return 404 if user is not found
+            return ResponseEntity.status(404).body(null);
         }
     }
 

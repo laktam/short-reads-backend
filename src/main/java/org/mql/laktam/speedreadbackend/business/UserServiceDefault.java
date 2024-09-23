@@ -62,8 +62,8 @@ public class UserServiceDefault implements UserService{
 			user.setUsername(newUser.getUsername());
 			user.setEmail(newUser.getEmail());
 			user.setDescription(newUser.getDescription());
-			
-			return userRepository.save(user);
+			userRepository.save(user);
+			return user;
 		}
 		throw new Exception("User not found");
 	}
