@@ -54,7 +54,10 @@ public class User {
 		this.email = email;
 		this.passwordHash = passwordHash;
 		this.createdAt = LocalDateTime.now();
+		this.description = "";
+		this.profilePictureUrl = "";
 	}
+	
 
 	public Long getId() {
 		return id;
