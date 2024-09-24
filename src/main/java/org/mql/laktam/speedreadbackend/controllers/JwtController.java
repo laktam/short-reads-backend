@@ -2,6 +2,7 @@ package org.mql.laktam.speedreadbackend.controllers;
 
 import java.util.Collections;
 
+import org.mql.laktam.speedreadbackend.business.JwtService;
 import org.mql.laktam.speedreadbackend.jwtutils.JwtUserDetailsService;
 import org.mql.laktam.speedreadbackend.jwtutils.TokenManager;
 import org.mql.laktam.speedreadbackend.models.User;
@@ -30,52 +31,31 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class JwtController {
 	@Autowired
-	private JwtUserDetailsService userDetailsService;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private TokenManager tokenManager;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private JwtService jwtService;
 
 	// Get a JWT Token once user is authenticated, otherwise throw
 	// BadCredentialsException
 	@PostMapping("/login")
 	public ResponseEntity<?> createToken(@RequestBody JwtLoginRequest request) throws Exception {
+		String token = "";
 		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+			token = jwtService.login(request.getUsername(), request.getPassword());
 		} catch (DisabledException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is disabled");
 		} catch (BadCredentialsException e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
 		}
-		
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-		final String jwtToken = tokenManager.generateJwtToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(jwtToken));
+
+		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
 	@PostMapping("/signup")
-	   public ResponseEntity<?> registerUser(@RequestBody JwtSignupRequest request) {
-	      if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-	         return ResponseEntity.badRequest().body("Username already exists.");
-	      }
-	      if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-	         return ResponseEntity.badRequest().body("Email already in use.");
-	      }
-
-	      String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-	      User newUser = new User(
-	         request.getUsername(),
-	         request.getEmail(),
-	         encodedPassword
-	      );
-
-	      userRepository.save(newUser);
-	      return ResponseEntity.ok(Collections.singletonMap("message", "Signup successful"));
-	   }
+	public ResponseEntity<?> registerUser(@RequestBody JwtSignupRequest request) {
+		try {
+			jwtService.signup(request.getUsername(), request.getEmail(), request.getPassword());
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		return ResponseEntity.ok(Collections.singletonMap("message", "Signup successful"));
+	}
 }
