@@ -6,10 +6,12 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.mql.laktam.speedreadbackend.business.JwtService;
 import org.mql.laktam.speedreadbackend.business.UserService;
 import org.mql.laktam.speedreadbackend.jwtutils.JwtUserDetailsService;
 import org.mql.laktam.speedreadbackend.jwtutils.TokenManager;
 import org.mql.laktam.speedreadbackend.models.Profile;
+import org.mql.laktam.speedreadbackend.models.ProfileUpdateResponse;
 import org.mql.laktam.speedreadbackend.models.User;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtSignupRequest;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtLoginRequest;
@@ -43,13 +45,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private JwtService jwtService;
 	
 	@GetMapping("/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable String username){
+		System.out.println("username in endpoint " + username);
 		Optional<User> userOpt = userService.findByUsername(username);
 		if(userOpt.isPresent()) {
 			User user = userOpt.get();			
-			return ResponseEntity.ok(new Profile(user.getUsername(), user.getDescription(), user.getFollowers().size(), user.getEmail(), user.getProfilePictureUrl()));
+			return ResponseEntity.ok(user.toProfile());
 		}else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("User not found");
@@ -71,12 +76,14 @@ public class UserController {
     }
     
     @PutMapping("/update/{username}")
-    public ResponseEntity<User> updateUser(
+    public ResponseEntity<ProfileUpdateResponse> updateUser(
             @PathVariable String username,
             @RequestBody Profile updatedUser) {
         try {
             User user = userService.updateUser(username, updatedUser);
-            return ResponseEntity.ok(user);
+            String token = jwtService.createToken(user.getUsername());
+            System.out.println("new token after update :::: " + token);
+            return ResponseEntity.ok(new ProfileUpdateResponse(token, user.getUsername()));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(null);
         }
