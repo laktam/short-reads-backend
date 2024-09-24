@@ -58,6 +58,10 @@ public class User {
 		this.profilePictureUrl = "";
 	}
 	
+	public Profile toProfile() {
+		return new Profile(username, description, followers.size(), email, profilePictureUrl);
+	}
+	
 
 	public Long getId() {
 		return id;
