@@ -47,7 +47,8 @@ public class UserServiceDefault implements UserService{
 			e.printStackTrace();
 		}
 
-        String relativePath = "uploads/" + fileName;
+        String relativePath = "static/" + fileName;
+//        String relativePath = fileName;
         user.setProfilePictureUrl(relativePath);
         userRepository.save(user);
 
