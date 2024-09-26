@@ -1,6 +1,9 @@
 package org.mql.laktam.speedreadbackend.repositories;
 
+import java.util.Optional;
+
 import org.mql.laktam.speedreadbackend.models.Follow;
+import org.mql.laktam.speedreadbackend.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,5 +13,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 	           "WHERE f.follower.username = :followerUsername AND f.followed.username = :followedUsername")
 	boolean isFollowing(@Param("followerUsername") String followerUsername, 
 	                                        @Param("followedUsername") String followedUsername);
+
+	Optional<Follow> findByFollowerAndFollowed(User follower, User followed);
 
 }
