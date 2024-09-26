@@ -50,7 +50,6 @@ public class UserController {
 	
 	@GetMapping("/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable String username){
-		System.out.println("username in endpoint " + username);
 		Optional<User> userOpt = userService.findByUsername(username);
 		if(userOpt.isPresent()) {
 			User user = userOpt.get();			
@@ -64,12 +63,12 @@ public class UserController {
 	
 
     @PostMapping("/uploadProfilePicture/{username}")
-    public ResponseEntity<String> uploadProfilePicture(
+    public ResponseEntity<?> uploadProfilePicture(
             @PathVariable String username,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("image") MultipartFile image) {
         try {
-            String relativePath = userService.saveProfilePicture(username, file);
-            return ResponseEntity.ok(relativePath);
+            String relativePath = userService.saveProfilePicture(username, image);
+            return ResponseEntity.ok(Collections.singletonMap("message", relativePath));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
@@ -82,7 +81,6 @@ public class UserController {
         try {
             User user = userService.updateUser(username, updatedUser);
             String token = jwtService.createToken(user.getUsername());
-            System.out.println("new token after update :::: " + token);
             return ResponseEntity.ok(new ProfileUpdateResponse(token, user.getUsername()));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(null);
