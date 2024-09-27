@@ -59,7 +59,19 @@ public class UserServiceDefault implements UserService{
 	public User updateUser(String username, Profile newUser) throws Exception {
 		Optional<User> userOpt = userRepository.findByUsername(username);
 		if(userOpt.isPresent()) {
+			// if new user field is changed it should be unique if it is username or email
 			User user = userOpt.get();
+			if(!user.getUsername().equals(newUser.getUsername())) {
+				if(userRepository.existsByUsername(newUser.getUsername())) {
+					throw new Exception("Username already exists");
+				}
+			}
+			if(!user.getEmail().equals(newUser.getEmail())) {
+				if(userRepository.existsByEmail(newUser.getEmail())) {
+					throw new Exception("Email already exists");
+				}
+			}
+			
 			user.setUsername(newUser.getUsername());
 			user.setEmail(newUser.getEmail());
 			user.setDescription(newUser.getDescription());
