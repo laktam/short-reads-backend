@@ -75,7 +75,7 @@ public class UserController {
     }
     
     @PutMapping("/update/{username}")
-    public ResponseEntity<ProfileUpdateResponse> updateUser(
+    public ResponseEntity<?> updateUser(
             @PathVariable String username,
             @RequestBody Profile updatedUser) {
         try {
@@ -83,7 +83,7 @@ public class UserController {
             String token = jwtService.createToken(user.getUsername());
             return ResponseEntity.ok(new ProfileUpdateResponse(token, user.getUsername()));
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
