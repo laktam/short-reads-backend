@@ -29,8 +29,13 @@ public class PostServiceDefault implements PostService{
 	public void newPost(String username, String content, MultipartFile backgroundImage) {
 		Optional<User> userOpt = userRepository.findByUsername(username);
 		if(userOpt.isPresent()) {
-			String backgroundUrl = saveBackgroundImage(username, backgroundImage);
-			Post newPost = new Post(userOpt.get(), content,backgroundUrl);
+			String backgroundUrl;
+			if(backgroundImage != null && !backgroundImage.isEmpty()) {
+				backgroundUrl = saveBackgroundImage(username, backgroundImage);
+			}else {
+				backgroundUrl = "";
+			}
+			Post newPost = new Post(userOpt.get(), content, backgroundUrl);
 			postRepository.save(newPost);
 		}
 		
@@ -41,7 +46,7 @@ public class PostServiceDefault implements PostService{
         if (!directory.exists()) {
             directory.mkdirs();
         }
-
+        
         // Get the file's original content type
         String originalFileName = image.getOriginalFilename();
         String fileExtension = "";
