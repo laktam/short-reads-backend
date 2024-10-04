@@ -37,7 +37,18 @@ public class UserServiceDefault implements UserService{
             directory.mkdirs();
         }
 
-        String fileName = "profile-picture-" + user.getId() + "-" + System.currentTimeMillis() + ".jpg";
+        // Get the file's original content type
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = "";
+
+        if (originalFileName != null && originalFileName.contains(".")) {
+            fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        } else {
+            // Default to .jpg
+            fileExtension = ".jpg";
+        }
+        
+        String fileName = "profile-picture-" + user.getId() + "-" + System.currentTimeMillis() + fileExtension;
         File destinationFile = new File(directory, fileName);
         try {
 			file.transferTo(destinationFile);
