@@ -36,10 +36,21 @@ public class Post {
 	public Post() {
 	}
 
-	public Post(User user, String content) {
+	public Post(User user, String content, Set<Tag> tags) {
 		this.user = user;
 		this.content = content;
 		this.createdAt = LocalDateTime.now();
+		this.tags = tags;
+		this.backgroundUrl = "";
+		
+	}
+	
+	public Post(User user, String content, String backgroundUrl) {
+		this.user = user;
+		this.content = content;
+		this.createdAt = LocalDateTime.now();
+		this.backgroundUrl = backgroundUrl;
+		
 	}
 
 	public Long getId() {
