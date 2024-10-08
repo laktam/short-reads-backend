@@ -1,6 +1,7 @@
 package org.mql.laktam.speedreadbackend.business;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
 import org.mql.laktam.speedreadbackend.models.Post;
@@ -9,6 +10,8 @@ import org.mql.laktam.speedreadbackend.repositories.PostRepository;
 import org.mql.laktam.speedreadbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +43,18 @@ public class PostServiceDefault implements PostService{
 		}
 		
 	}
+	
+	@Override
+	public List<Post> getPostsByUsername(String username){
+		return postRepository.findAllByUsername(username);
+	}
+	
+	@Override
+	public Page<Post> getPostsByUsername(String username, Pageable pageable) {
+        return postRepository.findPostsByUsername(username, pageable);
+    }
+	
+	
 	
 	public String saveBackgroundImage(String username, MultipartFile image) {
         File directory = new File(uploadDir);
