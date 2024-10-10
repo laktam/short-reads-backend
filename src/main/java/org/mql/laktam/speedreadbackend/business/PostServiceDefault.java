@@ -49,9 +49,15 @@ public class PostServiceDefault implements PostService{
 		return postRepository.findAllByUsername(username);
 	}
 	
-	@Override
-	public Page<Post> getPostsByUsername(String username, Pageable pageable) {
-        return postRepository.findPostsByUsername(username, pageable);
+//	@Override
+//	public Page<Post> getPostsByUsername(String username, Pageable pageable) {
+//        return postRepository.findPostsByUsername(username, pageable);
+//    }
+	
+	public Page<Post> getPostsByUser(String username, Pageable pageable) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return postRepository.findByUser(user, pageable);
     }
 	
 	
