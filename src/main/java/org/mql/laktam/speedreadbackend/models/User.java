@@ -38,7 +38,7 @@ public class User {
 	private String description;
 
 	@OneToMany(mappedBy = "user")
-	@JsonIgnore
+	@JsonIgnore 
 	private Set<Post> posts = new HashSet<>();
 
 	@OneToMany(mappedBy = "user")
