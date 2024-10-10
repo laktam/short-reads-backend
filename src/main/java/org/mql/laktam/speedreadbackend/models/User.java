@@ -1,6 +1,9 @@
 package org.mql.laktam.speedreadbackend.models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +38,7 @@ public class User {
 	private String description;
 
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private Set<Post> posts = new HashSet<>();
 
 	@OneToMany(mappedBy = "user")
