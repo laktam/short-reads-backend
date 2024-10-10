@@ -8,6 +8,7 @@ import org.mql.laktam.speedreadbackend.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,27 +31,19 @@ public class PostController {
 		return ResponseEntity.ok(Collections.singletonMap("message", "post added succesfully"));
 	}
 	
-	@RequestMapping("/user/{username}")
+	@GetMapping("/user/all/{username}")
 	public ResponseEntity<List<Post>> getPostsByUsername(@PathVariable String username){
 		return ResponseEntity.ok(postService.getPostsByUsername(username));
 	}
 	
-	@GetMapping("/user/{username}")
-    public ResponseEntity<Page<Post>> getPostsByUsername(
+	@GetMapping("/user/pagination/{username}")
+    public ResponseEntity<Page<Post>> getPostsByUser(
             @PathVariable String username,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        Page<Post> posts = postService.getPostsByUsername(username, PageRequest.of(page, size));
+            Pageable pageable) {
+        Page<Post> posts = postService.getPostsByUser(username, pageable);
         return ResponseEntity.ok(posts);
     }
 	
-	@GetMapping("/user/lastPosts")
-    public ResponseEntity<Page<Post>> getLastPostsPostsByUsername(
-            @PathVariable String username
-            ) {
-        Page<Post> posts = postService.getPostsByUsername(username, PageRequest.of(0, 8));
-        return ResponseEntity.ok(posts);
-    }
 	
 	
 
