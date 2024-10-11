@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,12 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 	
+	@GetMapping("/user/last/{username}")
+    public ResponseEntity<Page<Post>> getLastPostsByUser(
+            @PathVariable String username) {
+        Page<Post> posts = postService.getPostsByUser(username, PageRequest.of(0, 8, Sort.by(Sort.Direction.DESC, "createdAt")));
+        return ResponseEntity.ok(posts);
+    }
 	
 	
 
