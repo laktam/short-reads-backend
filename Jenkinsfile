@@ -21,8 +21,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        bat 'docker stop mysql'
-                        bat 'docker rm mysql'
+                        bat 'docker stop mysql_db'
+                        bat 'docker rm mysql_db'
                     } catch (err) {
                         echo "Container not found or already removed"
                     }
