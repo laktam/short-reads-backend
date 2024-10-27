@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/laktam/short-reads-backend'
+                git branch: 'main', url: 'https://github.com/laktam/short-reads-backend.git'
             }
         } 
         stage('Build') {
