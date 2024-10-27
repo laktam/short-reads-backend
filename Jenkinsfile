@@ -60,8 +60,7 @@ pipeline {
                 script {
                     bat """
                         docker build --build-arg POST_IMAGES_DIR=${POST_IMAGES_DIR} \
-                        --build-arg PROFILE_IMG_UPLOAD_DIR=${PROFILE_IMG_UPLOAD_DIR} -t shortreadsbackend:latest . \
-                        --network=${DOCKER_NETWORK}
+                        --build-arg PROFILE_IMG_UPLOAD_DIR=${PROFILE_IMG_UPLOAD_DIR} -t shortreadsbackend:latest .
                     """
                 }
             }
