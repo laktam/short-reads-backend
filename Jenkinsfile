@@ -1,10 +1,10 @@
 pipeline {
     agent any
     environment {
-        MYSQL_ROOT_PASSWORD = ''
+        MYSQL_ROOT_PASSWORD = 'root'
         MYSQL_DATABASE = 'short_reads'
         MYSQL_USER = 'root'
-        MYSQL_PASSWORD = ''
+        MYSQL_PASSWORD = 'root'
 
         ROOT_UPLOAD_DIR = '/uploads'
         PROFILE_IMG_UPLOAD_DIR = '/uploads/static'
@@ -21,10 +21,9 @@ pipeline {
             steps {
                 script {
                     bat """
-                        docker run -d --name mysql_db -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+                        docker run -d --name mysql_db \
+                        -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
                         -e MYSQL_DATABASE=${MYSQL_DATABASE} \
-                        -e MYSQL_USER=${MYSQL_USER} \
-                        -e MYSQL_PASSWORD=${MYSQL_PASSWORD} \
                         -v ${WORKSPACE}/other/short-read.sql:/docker-entrypoint-initdb.d/init.sql \
                         -p 3306:3306 mysql:latest
                     """
@@ -58,6 +57,9 @@ pipeline {
                     }
                     bat """
                     docker run -d --name shortreadsbackend -p 81:80 \
+                    -e MYSQL_USER=${MYSQL_USER}  \
+                    -e MYSQL_PASSWORD=${MYSQL_PASSWORD}  \
+                    -e ROOT_UPLOAD_DIR=${ROOT_UPLOAD_DIR}  \
                     -e ROOT_UPLOAD_DIR=${ROOT_UPLOAD_DIR}  \
                     -e PROFILE_IMG_UPLOAD_DIR=${PROFILE_IMG_UPLOAD_DIR}  \
                     -e POST_IMAGES_DIR=${POST_IMAGES_DIR}  \
