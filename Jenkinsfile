@@ -22,10 +22,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    bat 'docker stop shortreadsbackend || true'
-                    bat 'docker rm shortreadsbackend || true'
+                    try {
+                        bat 'docker stop shortreadsbackend'
+                        bat 'docker rm shortreadsbackend'
+                    } catch (err) {
+                        echo "Container not found or already removed"
+                    }
                     bat 'docker run -d --name shortreadsbackend -p 8080:8080 shortreadsbackend:latest'
-                }
+                }   
             }
         }
     }
