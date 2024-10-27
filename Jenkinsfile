@@ -44,7 +44,7 @@ pipeline {
                         -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
                         -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                         -v ${WORKSPACE}/other/short-read.sql:/docker-entrypoint-initdb.d/init.sql \
-                        -p 3306:3306 mysql:latest
+                        -p 3306:3306 grugnog/mysql-5.1
                     """
                 }
             }
