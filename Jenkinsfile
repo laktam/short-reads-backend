@@ -20,6 +20,12 @@ pipeline {
         stage('Start MySQL') {
             steps {
                 script {
+                    try {
+                        bat 'docker stop mysql'
+                        bat 'docker rm mysql'
+                    } catch (err) {
+                        echo "Container not found or already removed"
+                    }
                     bat """
                         docker run -d --name mysql_db \
                         -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
