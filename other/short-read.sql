@@ -8,7 +8,7 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     profile_picture_url VARCHAR(512),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_login TIMESTAMP,
+    last_login TIMESTAMP
     
 );
 
