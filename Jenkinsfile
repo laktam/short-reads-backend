@@ -9,7 +9,7 @@ pipeline {
         } 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         stage('Build Docker Image') {
@@ -22,9 +22,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh 'docker stop shortreadsbackend || true'
-                    sh 'docker rm shortreadsbackend || true'
-                    sh 'docker run -d --name shortreadsbackend -p 8080:8080 shortreadsbackend:latest'
+                    bat 'docker stop shortreadsbackend || true'
+                    bat 'docker rm shortreadsbackend || true'
+                    bat 'docker run -d --name shortreadsbackend -p 8080:8080 shortreadsbackend:latest'
                 }
             }
         }
