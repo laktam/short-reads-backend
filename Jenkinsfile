@@ -37,7 +37,7 @@ pipeline {
                     }
                     bat """
                         docker run -d --name mysql_db \
-                        --network ${DOCKER_NETWORK} \
+                        --network=${DOCKER_NETWORK} \
                         -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
                         -e MYSQL_DATABASE=${MYSQL_DATABASE} \
                         -v ${WORKSPACE}/other/short-read.sql:/docker-entrypoint-initdb.d/init.sql \
@@ -58,7 +58,7 @@ pipeline {
                     bat """
                         docker build --build-arg POST_IMAGES_DIR=${POST_IMAGES_DIR} \
                         --build-arg PROFILE_IMG_UPLOAD_DIR=${PROFILE_IMG_UPLOAD_DIR} -t shortreadsbackend:latest . \
-                        --network ${DOCKER_NETWORK}
+                        --network=${DOCKER_NETWORK}
                     """
                 }
             }
@@ -74,7 +74,7 @@ pipeline {
                     }
                     bat """
                     docker run -d --name shortreadsbackend -p 81:80 \
-                    --network ${DOCKER_NETWORK} \
+                    --network=${DOCKER_NETWORK} \
                     -e MYSQL_USER=${MYSQL_USER}  \
                     -e MYSQL_PASSWORD=${MYSQL_PASSWORD}  \
                     -e ROOT_UPLOAD_DIR=${ROOT_UPLOAD_DIR}  \
