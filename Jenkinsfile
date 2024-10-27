@@ -28,7 +28,7 @@ pipeline {
                     } catch (err) {
                         echo "Container not found or already removed"
                     }
-                    bat 'docker run -d --name shortreadsbackend -p 8080:8080 shortreadsbackend:latest'
+                    bat 'docker run -d --name shortreadsbackend -p 81:80 shortreadsbackend:latest'
                 }   
             }
         }
