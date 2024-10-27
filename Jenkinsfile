@@ -22,7 +22,10 @@ pipeline {
         stage('Create Network') {
             steps {
                 script {
-                    bat """docker network create ${DOCKER_NETWORK} || echo "Network already exists"""""
+                    bat """
+                        docker network create ${DOCKER_NETWORK} || echo "Network already exists"
+                        exit 0
+                        """
                 }
             }
         }
