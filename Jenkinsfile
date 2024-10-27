@@ -15,7 +15,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("shortreadsbackend:latest")
+                    bat 'docker build -t shortreadsbackend:latest .'
                 }
             }
         }
