@@ -1,13 +1,12 @@
 package org.mql.laktam.speedreadbackend.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")

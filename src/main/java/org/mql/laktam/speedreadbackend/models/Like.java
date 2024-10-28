@@ -1,7 +1,9 @@
 package org.mql.laktam.speedreadbackend.models;
 
-import javax.persistence.*;
+
 import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "likes")

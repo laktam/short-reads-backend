@@ -1,6 +1,6 @@
 package org.mql.laktam.speedreadbackend.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
