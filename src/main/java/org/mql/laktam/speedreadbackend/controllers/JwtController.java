@@ -3,17 +3,12 @@ package org.mql.laktam.speedreadbackend.controllers;
 import java.util.Collections;
 
 import org.mql.laktam.speedreadbackend.business.JwtService;
-import org.mql.laktam.speedreadbackend.jwtutils.JwtUserDetailsService;
-import org.mql.laktam.speedreadbackend.jwtutils.TokenManager;
-import org.mql.laktam.speedreadbackend.models.User;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtSignupRequest;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtLoginRequest;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtResponse;
-import org.mql.laktam.speedreadbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
