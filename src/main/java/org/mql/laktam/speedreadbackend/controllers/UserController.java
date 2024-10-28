@@ -1,32 +1,15 @@
 package org.mql.laktam.speedreadbackend.controllers;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Optional;
-
 import org.mql.laktam.speedreadbackend.business.JwtService;
 import org.mql.laktam.speedreadbackend.business.UserService;
-import org.mql.laktam.speedreadbackend.jwtutils.JwtUserDetailsService;
-import org.mql.laktam.speedreadbackend.jwtutils.TokenManager;
 import org.mql.laktam.speedreadbackend.models.Profile;
 import org.mql.laktam.speedreadbackend.models.ProfileUpdateResponse;
 import org.mql.laktam.speedreadbackend.models.User;
-import org.mql.laktam.speedreadbackend.models.jwt.JwtSignupRequest;
-import org.mql.laktam.speedreadbackend.models.jwt.JwtLoginRequest;
-import org.mql.laktam.speedreadbackend.models.jwt.JwtResponse;
-import org.mql.laktam.speedreadbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 
 @RestController
 @CrossOrigin
@@ -48,6 +36,16 @@ public class UserController {
 	@Autowired
 	private JwtService jwtService;
 	
+
+    @Operation(
+        summary = "Fetch user by username",
+        description = "Retrieve a user profile based on the given username",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Profile retrieved successfully",
+                         content = @Content(schema = @Schema(implementation = Profile.class))),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        }
+    )
 	@GetMapping("/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable String username){
 		Optional<User> userOpt = userService.findByUsername(username);
@@ -61,7 +59,14 @@ public class UserController {
 	}
 	
 	
-
+    @Operation(
+        summary = "Upload profile picture",
+        description = "Upload a profile picture for the specified user",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "File uploaded successfully"),
+            @ApiResponse(responseCode = "500", description = "Error uploading file")
+        }
+    )
     @PostMapping("/uploadProfilePicture/{username}")
     public ResponseEntity<?> uploadProfilePicture(
             @PathVariable String username,
@@ -74,6 +79,15 @@ public class UserController {
         }
     }
     
+    @Operation(
+        summary = "Update user profile",
+        description = "Update the user profile (except the profile picture) and receive a new token",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Profile updated successfully",
+                         content = @Content(schema = @Schema(implementation = ProfileUpdateResponse.class))),
+            @ApiResponse(responseCode = "404", description = "User not found or update error")
+        }
+    )
     @PutMapping("/update/{username}")
     public ResponseEntity<?> updateUser(
             @PathVariable String username,
