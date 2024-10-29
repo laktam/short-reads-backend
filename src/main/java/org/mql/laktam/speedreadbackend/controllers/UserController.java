@@ -6,6 +6,7 @@ import org.mql.laktam.speedreadbackend.business.JwtService;
 import org.mql.laktam.speedreadbackend.business.UserService;
 import org.mql.laktam.speedreadbackend.models.Profile;
 import org.mql.laktam.speedreadbackend.models.ProfileUpdateResponse;
+import org.mql.laktam.speedreadbackend.models.ResponseMessage;
 import org.mql.laktam.speedreadbackend.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,15 +38,10 @@ public class UserController {
 	private JwtService jwtService;
 	
 
-    @Operation(
-        summary = "Fetch user by username",
-        description = "Retrieve a user profile based on the given username",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Profile retrieved successfully",
-                         content = @Content(schema = @Schema(implementation = Profile.class))),
-            @ApiResponse(responseCode = "404", description = "User not found")
-        }
-    )
+    @Operation(summary = "Fetch user profile by username", responses = {
+        @ApiResponse(responseCode = "200", description = "User found", content = @Content(schema = @Schema(implementation = Profile.class))),
+        @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = ResponseMessage.class)))
+    })
 	@GetMapping("/username/{username}")
 	public ResponseEntity<?> getUserByUsername(@PathVariable String username){
 		Optional<User> userOpt = userService.findByUsername(username);
@@ -54,40 +50,34 @@ public class UserController {
 			return ResponseEntity.ok(user.toProfile());
 		}else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("User not found");
+                    .body(new ResponseMessage("User not found"));
 		}
 	}
 	
-	
-    @Operation(
-        summary = "Upload profile picture",
-        description = "Upload a profile picture for the specified user",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "File uploaded successfully"),
-            @ApiResponse(responseCode = "500", description = "Error uploading file")
-        }
-    )
+	@Operation(summary = "Upload a user's profile picture", responses = {
+        @ApiResponse(responseCode = "200", description = "Profile picture updated", 
+            content = @Content(schema = @Schema(implementation = ResponseMessage.class))),
+        @ApiResponse(responseCode = "500", description = "Failed to update profile picture", 
+            content = @Content(schema = @Schema(implementation = ResponseMessage.class)))
+    })
     @PostMapping("/uploadProfilePicture/{username}")
     public ResponseEntity<?> uploadProfilePicture(
             @PathVariable String username,
             @RequestParam("image") MultipartFile image) {
         try {
-            String relativePath = userService.saveProfilePicture(username, image);
-            return ResponseEntity.ok(Collections.singletonMap("message", relativePath));
+            userService.saveProfilePicture(username, image);
+            return ResponseEntity.ok(new ResponseMessage("User profile picutre updated successfully"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Fialed to update profile picture"));
         }
     }
     
-    @Operation(
-        summary = "Update user profile",
-        description = "Update the user profile (except the profile picture) and receive a new token",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Profile updated successfully",
-                         content = @Content(schema = @Schema(implementation = ProfileUpdateResponse.class))),
-            @ApiResponse(responseCode = "404", description = "User not found or update error")
-        }
-    )
+    @Operation(summary = "Update user profile", responses = {
+        @ApiResponse(responseCode = "200", description = "User profile updated", 
+            content = @Content(schema = @Schema(implementation = ProfileUpdateResponse.class))),
+        @ApiResponse(responseCode = "404", description = "User update failed", 
+            content = @Content(schema = @Schema(implementation = ResponseMessage.class)))
+    })
     @PutMapping("/update/{username}")
     public ResponseEntity<?> updateUser(
             @PathVariable String username,
@@ -97,7 +87,7 @@ public class UserController {
             String token = jwtService.createToken(user.getUsername());
             return ResponseEntity.ok(new ProfileUpdateResponse(token, user.getUsername()));
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(e.getMessage());
+            return ResponseEntity.status(404).body(new ResponseMessage(e.getMessage()));
         }
     }
 
