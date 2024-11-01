@@ -2,7 +2,7 @@
 
 ## Overview
 
-Short Reads is a backend application designed to facilitate the management and sharing of short-form content, including posts and user profiles. This application supports user authentication, profile management, and social interactions like following other users.
+This is a backend designed to facilitate the management and sharing of short-form content, including posts and user profiles. This application supports user authentication, profile management, and social interactions like following other users.
 
 ## Table of Contents
 - [Features](#features)
