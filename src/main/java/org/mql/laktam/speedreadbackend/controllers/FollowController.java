@@ -38,7 +38,7 @@ public class FollowController {
         return ResponseEntity.ok(new ResponseMessage(followerUsername + " started following " + followedUsername));
 	}
 
-	 @Operation(summary = "Unfollow a user",
+	@Operation(summary = "Unfollow a user",
         responses = {
             @ApiResponse(responseCode = "200", description = "Unfollow action successful",
                 content = @Content(schema = @Schema(implementation = String.class)))

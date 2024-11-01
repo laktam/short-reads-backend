@@ -12,6 +12,7 @@ Short Reads is a backend application designed to facilitate the management and s
 - [CI/CD Pipeline](#ci/cd-pipeline)
     - [GitHub Webhook Integration](#gitHub-webhook-integration)
     - [Ngrok](#ngrok)
+    - [Pipeline diagram](#pipeline-diagram)
 
 ## Features
 
@@ -72,3 +73,26 @@ Ngrok creates a secure tunnel that allows GitHub to communicate with Jenkins run
 - Generates a public URL
 - Routes GitHub webhook requests to local Jenkins server
 This enables GitHub webhooks to trigger our Jenkins pipeline without requiring a public IP
+
+### Pipeline diagram
+```mermaid
+graph TD
+   A[Start Pipeline] --> B[Checkout Repository]
+   B[Checkout Repository<br/>Clone from GitHub] --> C[Network Setup]
+   C[Network Setup<br/>Create Docker Network] --> D[Database Setup]
+   D[Database Setup<br/>Start MySQL Container] --> E[Application Build]
+   E[Application Build<br/>Maven Package] --> F[Docker Build]
+   F[Docker Build<br/>Create Application Image] --> G[Application Deploy]
+   G[Application Deploy<br/>Run Backend Container] --> H{Deployment Status}
+   H -->|Success| I[Success Notification]
+   H -->|Failure| J[Failure Notification]
+
+   style A fill:#e6f3ff
+   style B fill:#f0fff0
+   style C fill:#fff0f0
+   style D fill:#f0f0ff
+   style E fill:#fff3e6
+   style F fill:#f0ffe6
+   style G fill:#ffe6f0
+   style H fill:#f3f3f3
+```
