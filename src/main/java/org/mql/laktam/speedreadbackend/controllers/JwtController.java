@@ -20,6 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 /*
  * Uses AuthenticationManager to authenticate the user and TokenManager to generate JWT tokens.
  */
@@ -31,6 +37,15 @@ public class JwtController {
 
 	// Get a JWT Token once user is authenticated, otherwise throw
 	// BadCredentialsException
+	@Operation(summary = "Login to get a JWT token", description = "Validates user credentials and returns a JWT token on successful authentication.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully authenticated",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtResponse.class))),
+        @ApiResponse(responseCode = "403", description = "User is disabled",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseMessage.class))),
+        @ApiResponse(responseCode = "401", description = "Invalid credentials",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseMessage.class)))
+    })
 	@PostMapping("/login")
 	public ResponseEntity<?> createToken(@RequestBody JwtLoginRequest request) throws Exception {
 		String token = "";
@@ -45,6 +60,14 @@ public class JwtController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
+
+	@Operation(summary = "Register a new user", description = "Creates a new user account with the provided username, email, and password.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Signup successful",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseMessage.class))),
+        @ApiResponse(responseCode = "400", description = "Signup failed due to invalid input or duplicate entry",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseMessage.class)))
+    })
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@RequestBody JwtSignupRequest request) {
 		try {
