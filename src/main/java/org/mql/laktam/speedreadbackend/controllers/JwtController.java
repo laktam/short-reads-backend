@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.mql.laktam.speedreadbackend.business.JwtService;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtSignupRequest;
+import org.mql.laktam.speedreadbackend.models.ResponseMessage;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtLoginRequest;
 import org.mql.laktam.speedreadbackend.models.jwt.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class JwtController {
 		try {
 			token = jwtService.login(request.getUsername(), request.getPassword());
 		} catch (DisabledException e) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is disabled");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseMessage("User is disabled"));
 		} catch (BadCredentialsException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid credentials"));
 		}
 
 		return ResponseEntity.ok(new JwtResponse(token));
@@ -49,8 +50,8 @@ public class JwtController {
 		try {
 			jwtService.signup(request.getUsername(), request.getEmail(), request.getPassword());
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body(new ResponseMessage(e.getMessage()));
 		}
-		return ResponseEntity.ok(Collections.singletonMap("message", "Signup successful"));
+		return ResponseEntity.ok(new ResponseMessage("Signup successful"));
 	}
 }
