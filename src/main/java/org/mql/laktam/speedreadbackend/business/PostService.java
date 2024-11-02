@@ -3,7 +3,6 @@ package org.mql.laktam.speedreadbackend.business;
 import java.util.List;
 
 import org.mql.laktam.speedreadbackend.models.Post;
-import org.mql.laktam.speedreadbackend.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;

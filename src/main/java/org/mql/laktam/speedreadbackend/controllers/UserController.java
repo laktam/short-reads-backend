@@ -1,6 +1,5 @@
 package org.mql.laktam.speedreadbackend.controllers;
 
-import java.util.Collections;
 import java.util.Optional;
 import org.mql.laktam.speedreadbackend.business.JwtService;
 import org.mql.laktam.speedreadbackend.business.UserService;

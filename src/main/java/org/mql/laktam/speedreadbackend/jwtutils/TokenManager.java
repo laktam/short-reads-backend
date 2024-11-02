@@ -18,7 +18,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class TokenManager {
 
-   private static final long serialVersionUID = 7008375124389347049L; 
+   // private static final long serialVersionUID = 7008375124389347049L; 
    public static final long TOKEN_VALIDITY = 10 * 60 * 60; 
 
    @Value("${jwt.secret}") 

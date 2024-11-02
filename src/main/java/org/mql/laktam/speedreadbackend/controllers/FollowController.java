@@ -1,7 +1,5 @@
 package org.mql.laktam.speedreadbackend.controllers;
 
-import java.util.Collections;
-
 import org.mql.laktam.speedreadbackend.business.FollowService;
 import org.mql.laktam.speedreadbackend.models.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
